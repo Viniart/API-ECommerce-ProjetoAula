@@ -4,9 +4,6 @@ using API_ECommerce.Models;
 
 namespace API_ECommerce.Repositories
 {
-    // 1 - Herdar da Interface
-    // 2 - Implementar a Interface
-    // 3 - Injetar o Contexto
     public class ClienteRepository : IClienteRepository
     {
         private readonly EcommerceContext _context;
@@ -33,7 +30,7 @@ namespace API_ECommerce.Repositories
 
         public void Cadastrar(Cliente cliente)
         {
-            throw new NotImplementedException();
+            _context.Clientes.Add(cliente);
         }
 
         public void Deletar(int id)
@@ -43,7 +40,7 @@ namespace API_ECommerce.Repositories
 
         public List<Cliente> ListarTodos()
         {
-            throw new NotImplementedException();
+            return _context.Clientes.ToList();
         }
     }
 }
