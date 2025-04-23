@@ -18,7 +18,6 @@ builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
 builder.Services.AddTransient<IPagamentoRepository, PagamentoRepository>();
 builder.Services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
 
-
 var app = builder.Build();
 
 app.UseSwagger();

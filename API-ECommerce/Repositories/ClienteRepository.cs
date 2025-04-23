@@ -13,29 +13,74 @@ namespace API_ECommerce.Repositories
             _context = context;
         }
 
-        public void Atualizar(int id, Cliente cliente)
+        public void Atualizar(int id, Cliente clienteNovo)
         {
-            throw new NotImplementedException();
+            // Acho o cliente que desejo
+            var clienteEncontrado = _context.Clientes.FirstOrDefault(c => c.IdCliente == id);
+
+            if (clienteEncontrado == null)
+            {
+                throw new ArgumentNullException("Cliente não encontrado");
+            }
+
+            // Campo a Campo alterando
+            clienteEncontrado.NomeCompleto = clienteNovo.NomeCompleto;
+            clienteEncontrado.Email = clienteNovo.Email;
+            clienteEncontrado.Telefone = clienteNovo.Telefone;
+            clienteEncontrado.Endereco = clienteNovo.Endereco;
+            clienteEncontrado.Senha = clienteNovo.Senha;
+            clienteEncontrado.DataCadastro = clienteNovo.DataCadastro;
+
+            _context.SaveChanges();
         }
 
-        public Cliente BuscarPorEmailSenha(string email, string senha)
+        /// <summary>
+        /// Acessa o Banco de Dados, e encontra o Cliente com email e senha fornecidos
+        /// </summary>
+        /// <returns>Um cliente ou nulo</returns>
+        public Cliente? BuscarPorEmailSenha(string email, string senha)
         {
-            throw new NotImplementedException();
+            // Encontrar o Cliente que possui o email e senha fornecidos
+            var clienteEncontrado = _context.Clientes.FirstOrDefault(c => c.Email == email && c.Senha == senha);
+
+            return clienteEncontrado;
         }
 
         public Cliente BuscarPorId(int id)
         {
-            throw new NotImplementedException();
+            // Qualquer método que vai me trazer apenas 1 cliente
+            // First or Default
+            return _context.Clientes.FirstOrDefault(c => c.IdCliente == id);
         }
 
         public void Cadastrar(Cliente cliente)
         {
             _context.Clientes.Add(cliente);
+
+            _context.SaveChanges();
         }
 
         public void Deletar(int id)
         {
-            throw new NotImplementedException();
+            // Encontrar quem eu quero deletar
+
+            // FirstOrDefault - Pesquisa por qualquer campo
+            var clienteEncontrado = _context.Clientes.FirstOrDefault(c => c.IdCliente == id);
+
+            // Find - Pesquisa SOMENTE pela chave primária (ID)
+            // var clienteEncontrado2 = _context.Clientes.Find(id);
+
+            // Caso eu não encontre o cliente lanço um erro
+            if(clienteEncontrado == null)
+            {
+                throw new ArgumentNullException("Cliente não encontrado");
+            }
+
+            // Removo o Cliente
+            _context.Clientes.Remove(clienteEncontrado);
+
+            // Salvo as alterações
+            _context.SaveChanges();
         }
 
         public List<Cliente> ListarTodos()

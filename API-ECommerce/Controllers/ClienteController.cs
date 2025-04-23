@@ -24,5 +24,19 @@ namespace API_ECommerce.Controllers
         {
             return Ok(_clienteRepository.ListarTodos());
         }
+
+        // /api/cliente/vini@senai.com/12345
+        [HttpGet("{email}/{senha}")]
+        public IActionResult Login(string email, string senha)
+        {
+            var cliente = _clienteRepository.BuscarPorEmailSenha(email, senha);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(cliente);
+        }
     }
 }
