@@ -10,5 +10,6 @@ namespace API_ECommerce.Interfaces
         void Cadastrar(Cliente cliente);
         void Atualizar(int id, Cliente cliente);
         void Deletar(int id);
+        List<Cliente> BuscarClientePorNome(string nome);
     }
 }

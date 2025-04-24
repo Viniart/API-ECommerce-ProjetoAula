@@ -34,6 +34,15 @@ namespace API_ECommerce.Repositories
             _context.SaveChanges();
         }
 
+        public List<Cliente> BuscarClientePorNome(string nome)
+        {
+            // Where - Traz todos que atendem uma condicao
+            var listaClientes = _context.Clientes.Where(c => c.NomeCompleto == nome)
+                .ToList();
+
+            return listaClientes;
+        }
+
         /// <summary>
         /// Acessa o Banco de Dados, e encontra o Cliente com email e senha fornecidos
         /// </summary>
@@ -85,7 +94,9 @@ namespace API_ECommerce.Repositories
 
         public List<Cliente> ListarTodos()
         {
-            return _context.Clientes.ToList();
+            return _context.Clientes
+                .OrderBy(c => c.NomeCompleto)
+                .ToList();
         }
     }
 }
