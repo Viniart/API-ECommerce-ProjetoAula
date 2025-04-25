@@ -1,6 +1,8 @@
-﻿using API_ECommerce.Context;
+﻿
+using API_ECommerce.Context;
 using API_ECommerce.Interfaces;
 using API_ECommerce.Models;
+using API_ECommerce.ViewModels;
 
 namespace API_ECommerce.Repositories
 {
@@ -92,10 +94,19 @@ namespace API_ECommerce.Repositories
             _context.SaveChanges();
         }
 
-        public List<Cliente> ListarTodos()
+        public List<ListarClienteViewModel> ListarTodos()
         {
             return _context.Clientes
-                .OrderBy(c => c.NomeCompleto)
+                // Permite que eu selecione quais campos eu quero pegar
+                .Select(
+                    c => new ListarClienteViewModel
+                    {
+                        IdCliente = c.IdCliente,
+                        NomeCompleto = c.NomeCompleto,
+                        Email = c.Email,
+                        Telefone = c.Telefone,
+                        Endereco = c.Endereco
+                    })
                 .ToList();
         }
     }
