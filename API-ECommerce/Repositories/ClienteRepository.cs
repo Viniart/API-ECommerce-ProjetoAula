@@ -1,7 +1,9 @@
 ﻿
 using API_ECommerce.Context;
+using API_ECommerce.DTO;
 using API_ECommerce.Interfaces;
 using API_ECommerce.Models;
+using API_ECommerce.Services;
 using API_ECommerce.ViewModels;
 
 namespace API_ECommerce.Repositories
@@ -64,9 +66,23 @@ namespace API_ECommerce.Repositories
             return _context.Clientes.FirstOrDefault(c => c.IdCliente == id);
         }
 
-        public void Cadastrar(Cliente cliente)
+        public void Cadastrar(CadastrarClienteDto clienteDto)
         {
-            _context.Clientes.Add(cliente);
+            var passwordService = new PasswordService();
+
+            Cliente clienteCadastro = new Cliente
+            {
+               NomeCompleto = clienteDto.Email,
+               Telefone = clienteDto.Telefone,
+               Endereco = clienteDto.Endereco,
+               DataCadastro = clienteDto.DataCadastro,
+               Email = clienteDto.Email,
+               Senha = clienteDto.Senha
+            };
+
+            clienteCadastro.Senha = passwordService.HashPassword(clienteCadastro);
+
+            _context.Clientes.Add(clienteCadastro);
 
             _context.SaveChanges();
         }
